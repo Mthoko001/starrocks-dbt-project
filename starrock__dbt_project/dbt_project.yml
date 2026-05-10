@@ -31,6 +31,13 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   starrock__dbt_project:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+    staging:
+      +schema: dev_db
+      +materialized: incremental
+    marts:
+      facts:
+        +schema: dev_db
+        +materialized: table
+      dims:
+        +schema: dev_db
+        +materialized: table

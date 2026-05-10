@@ -3,23 +3,24 @@
         materialized         = 'incremental',
         incremental_strategy = 'insert_overwrite',
         engine               = 'OLAP',
-        distributed_by       = ['BILL_SERVICE_PROVIDER']
+        distributed_by       = ['BRANCH']
     )
 }}
 
 WITH source AS (
 
     SELECT
-        BILL_SERVICE_PROVIDER,
-        DESCRIPTION,
-        ACCOUNT_KEY,
+        BRANCH,
+        POS_ID,
+        SALE_DATE,
+        PAYMENT,
+        QUANTITY,
         STR_TO_DATE(DATE_UPDATED, '%Y%m%d')     AS DATE_UPDATED,
-        DECIMAL_UPDATED,
         TIME_UPDATED,
         USER_UPDATED,
         TS
 
-    FROM staging_db.BILL_SERVICE_PROVIDER
+    FROM staging_db.ELECTRICITY
 
     WHERE TS IS NOT NULL
 

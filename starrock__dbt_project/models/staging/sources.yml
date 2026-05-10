@@ -2,14 +2,24 @@ version: 2
 
 sources:
   - name: staging_db
-    database: staging_db
     schema: staging_db
+    loaded_at_field: TS
     tables:
       - name: BILL_SERVICE_PROVIDER
         description: "Raw billing service provider data loaded daily"
         columns:
           - name: BILL_SERVICE_PROVIDER
             description: "Unique provider ID"
+          - name: TS
+            description: "Load timestamp - used for incremental"
+            tests:
+              - not_null
+
+      - name: ELECTRICITY
+        description: "Raw electricity sales data loaded daily"
+        columns:
+          - name: BRANCH
+            description: "Unique branch number"
           - name: TS
             description: "Load timestamp - used for incremental"
             tests:

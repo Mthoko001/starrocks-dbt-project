@@ -32,12 +32,9 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   starrock__dbt_project:
     staging:
-      +schema: dev_db
       +materialized: incremental
     marts:
       facts:
-        +schema: dev_db
         +materialized: table
       dims:
-        +schema: dev_db
         +materialized: table

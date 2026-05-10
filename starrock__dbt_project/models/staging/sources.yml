@@ -2,8 +2,9 @@ version: 2
 
 sources:
   - name: staging_db
-    database: staging_db
-    schema: staging_db
+    database: default_catalog      # ← catalog
+    schema: staging_db             # ← actual database
+    loaded_at_field: TS
     tables:
       - name: BILL_SERVICE_PROVIDER
         description: "Raw billing service provider data loaded daily"

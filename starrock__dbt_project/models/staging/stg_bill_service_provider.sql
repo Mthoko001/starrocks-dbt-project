@@ -1,11 +1,9 @@
 {{
     config(
         materialized         = 'incremental',
-        unique_key           = 'BILL_SERVICE_PROVIDER',
-        incremental_strategy = 'merge',
+        incremental_strategy = 'insert_overwrite',
         engine               = 'OLAP',
-        primary_key          = ['BILL_SERVICE_PROVIDER'],
-        distributed_by       = 'BILL_SERVICE_PROVIDER'
+        distributed_by       = ['BILL_SERVICE_PROVIDER']
     )
 }}
 
@@ -15,19 +13,13 @@ WITH source AS (
         BILL_SERVICE_PROVIDER,
         DESCRIPTION,
         ACCOUNT_KEY,
-
-        -- CHAR(8) → DATE
         STR_TO_DATE(DATE_UPDATED, '%Y%m%d')     AS DATE_UPDATED,
-
         DECIMAL_UPDATED,
-
-        -- CHAR(10) → TIME
-        CAST(TIME_UPDATED AS TIME)               AS TIME_UPDATED,
-
+        TIME_UPDATED,
         USER_UPDATED,
         TS
 
-    FROM {{ source('staging_db', 'BILL_SERVICE_PROVIDER') }}
+    FROM staging_db.BILL_SERVICE_PROVIDER
 
     WHERE TS IS NOT NULL
 
